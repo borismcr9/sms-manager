@@ -1,6 +1,7 @@
-var models
- , crypto = require('crypto')
- , moment = require('moment');
+var models,
+	crypto = require('crypto'),
+	moment = require('moment');
+
 moment.lang("es");
 exports.setup = function( _models ){
 	models = _models;
@@ -14,7 +15,7 @@ exports.loginGet = function(req, res){
 		res.render('login',{ title : 'Iniciar sesion', redirect: req.query.redirect } );
 	}
 	return out( );
-}
+};
 
 /**
  * Validate user and create session
@@ -23,7 +24,9 @@ exports.loginGet = function(req, res){
 exports.loginPost = function(req, res){
 	function out(  ){
 		var post = req.body;
-		models.users.findOne({ email: post.email, password: crypto.createHash('md5').update(post.password).digest("hex") }, function(err,row){
+		var query = { email: post.email,
+					password: crypto.createHash('md5').update(post.password).digest("hex") };
+		models.users.findOne(query, function(err,row) {
 			if( !err ){
 				if( row ){
 					req.session.user_id = row._id;
@@ -39,7 +42,7 @@ exports.loginPost = function(req, res){
 		});
 	}
 	return out( );
-}
+};
 
 exports.logoutGet = function(req, res){
 	function out(  ){
@@ -47,14 +50,14 @@ exports.logoutGet = function(req, res){
 		res.redirect('/login');
 	}
 	return out( );
-}
+};
 
 exports.homeGet = function( req, res ){
 	function out(  ){
 		res.render('index',{ title : 'Inicio' } );
 	}
 	return out( );
-}
+};
 
 exports.smsInboxGet = function( req, res ){
 	function out(  ){
@@ -81,4 +84,4 @@ exports.smsInboxGet = function( req, res ){
 		});
 	}
 	return out( );
-}
+};

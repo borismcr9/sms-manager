@@ -1,9 +1,10 @@
-var models
-, websocket
-, string = require('string')
-, moment = require('moment');
+var models,
+	websocket,
+	string = require('string'),
+	moment = require('moment');
 
 moment.lang("es");
+
 exports.setup = function( _models, _websocket ){
 	models = _models;
 	websocket = _websocket;
@@ -13,7 +14,7 @@ function webSocketSendData (data){
 	data.text = string(decodeURIComponent(data.text.replace(/\+/g, '%20'))).stripTags().s;
 	data.registered = moment(new Date()).fromNow();
 
-	var row = new models.sms;
+	var row = new models.sms();
 	row.number = data.number;
 	row.text = data.text;
 	row.registered = new Date();
@@ -34,7 +35,7 @@ exports.webSocketStart = function (data){
 		data.on("new_message", webSocketSendData);
 	}
   return out();
-}
+};
 
 /**
  * Load login template form
@@ -46,4 +47,4 @@ exports.receiber = function(req, res){
 		res.send('true');
 	}
 	return out( );
-}
+};

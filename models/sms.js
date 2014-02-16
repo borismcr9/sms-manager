@@ -5,7 +5,7 @@ exports.setup = function(_mongoose,_db){
   db = _db;
 
 
-  var schema = mongoose.Schema({ 
+  var schema = mongoose.Schema({
     number: String,
     text: String,
     registered: Date,
